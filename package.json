@@ -1,7 +1,7 @@
 {
-  "name": "zyte-puppeteer",
+  "name": "zyte-proxy-puppeteer",
   "version": "1.0.0",
-  "description": "A puppeteer enhancement with zyte services.",
+  "description": "A puppeteer enhancement with zyte smart proxy manager services.",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,12 +9,8 @@
   "author": "Shashank Kumar | realslimshanky",
   "license": "MIT",
   "dependencies": {
-    "debug": "^4.3.1",
-    "deepmerge": "^4.2.2",
+    "@cliqz/adblocker-puppeteer": "^1.23.0",
+    "cross-fetch": "^3.1.4",
     "puppeteer": "^10.4.0"
-  },
-  "devDependencies": {
-    "@types/debug": "^4.1.7",
-    "typescript": "^4.4.4"
   }
 }

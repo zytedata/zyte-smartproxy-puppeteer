@@ -1,8 +1,8 @@
-# Zyte-Puppeteer
+# Zyte-Proxy-Puppeteer
 
 A wrapper over Puppeteer to provide Zyte specific functionalities.
 
-## How to use
+## Quick Tutorial
 
 1. Clone this repo.
 
@@ -24,17 +24,17 @@ A wrapper over Puppeteer to provide Zyte specific functionalities.
 
 `npm init -y && npm link zyte-puppeteer`
 
-6. Create a file `test.js` with following content and replace <SPM_APIKEY>.
+6. Create a file `test.js` with following content and replace `<SPM_APIKEY>`.
 
 ``` javascript
-const ZytePuppeteer = require('zyte-puppeteer');
+const ZyteProxyPuppeteer = require('zyte-puppeteer');
 
 (async () => {
-    const browser = await ZytePuppeteer.launch({
+    const browser = await ZyteProxyPuppeteer.launch({
         spm_apikey: '<SPM_APIKEY>'
     });
     console.log('Before new page')
-    const page = await browser.newPage({ignoreHTTPSErrors: true});
+    const page = await browser.newPage();
 
     console.log('Opening page ...');
     try {
@@ -47,10 +47,22 @@ const ZytePuppeteer = require('zyte-puppeteer');
     await page.screenshot({path: 'screenshot.png'});
     await browser.close();
 })();
-
 ```
 
 7. Run the file using node.
 
 `node test.js`
 
+## API
+
+`ZyteProxyPuppeteer.launch` accepts all the arguments accepted by `Puppeteer.launch` and some
+additional arguments defined below:
+
+| Argument | Default Value | Description |
+|----------|---------------|-------------|
+| `spm_apikey` (required) | `undefined` | Zyte Smart Proxy Manager API key that can be found on your zyte.com account. |
+| `spm_host` | `http://proxy.zyte.com:8011` | Zyte Smart Proxy Manager proxy host. |
+| `static_bypass` | `true` | When `true` ZyteProxyPuppeteer will skip proxy use for static assets defined by `static_bypass_regex` or pass `false` to use proxy. |
+| `static_bypass_regex` | `/.*?\.(?:txt|css|eot|gif|ico|jpe?g|js|less|mkv|mp4|mpe?g|png|ttf|webm|webp|woff2?)$/` | Regex to use filtering URLs for `static_bypass`. |
+| `block_ads` | `true` | When `true` ZyteProxyPuppeteer will block ads defined by `block_list` using `@cliqz/adblocker-puppeteer` package. |
+| `block_list` | `['https://easylist.to/easylist/easylist.txt', 'https://easylist.to/easylist/easyprivacy.txt']` | Block list to be used by ZyteProxyPuppeteer in order to initiate blocker enginer using `@cliqz/adblocker-puppeteer` and block ads |
