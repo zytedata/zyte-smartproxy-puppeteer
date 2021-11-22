@@ -38,7 +38,7 @@ const ZyteProxyPuppeteer = require('zyte-puppeteer');
 
     console.log('Opening page ...');
     try {
-        await page.goto('http://toscrape.com/', {timeout: 180000});
+        await page.goto('https://toscrape.com/', {timeout: 180000});
     } catch(err) {
         console.log(err);
     }
@@ -49,7 +49,9 @@ const ZyteProxyPuppeteer = require('zyte-puppeteer');
 })();
 ```
 
-7. Run the file using node.
+7. Make sure that you're able to make `https` requests using Smart Proxy Manager by following this guide [Fetching HTTPS pages with Zyte Smart Proxy Manager](https://support.zyte.com/support/solutions/articles/22000188407-fetching-https-pages-with-zyte-smart-proxy-manager)
+
+8. Run the file using node.
 
 `node test.js`
 
