@@ -1,33 +1,48 @@
-# Zyte-Proxy-Puppeteer
+# Zyte Proxy Puppeteer
+[![made-with-javascript](https://img.shields.io/badge/Made%20with-JavaScript-1f425f.svg)](https://www.javascript.com)
 
-A wrapper over Puppeteer to provide Zyte specific functionalities.
+Use [Puppeteer](https://github.com/puppeteer/puppeteer/) with 
+[Smart Proxy Manager](https://www.zyte.com/smart-proxy-manager/) easily!
 
-## Quick Tutorial
+A wrapper over Puppeteer to provide Zyte Smart Proxy Manager specific functionalities.
 
-1. Clone this repo.
 
-`git clone git@github.com:zytedata/zyte-puppeteer.git`
+## QuickStart
 
-2. Move to the directory and install dependencies.
+1. **Clone this repo.**
 
-`cd zyte-puppeteer && npm install`
+```
+git clone git@github.com:zytedata/zyte-puppeteer.git
+```
 
-3. Link the library to NPM.
+2. **Move to the directory and install dependencies.**
 
-`npm link`
+```
+cd zyte-puppeteer && npm install
+```
 
-4. Create a separate repository outside of `zyte-puppeteer`.
+3. **Link the library to NPM.**
 
-`cd .. && mkdir testing-zyte-puppeteer`
+```
+npm link
+```
 
-5. Link `zyte-puppeteer`.
+4. **Create a separate repository outside of `zyte-proxy-puppeteer`.**
 
-`npm init -y && npm link zyte-puppeteer`
+```
+cd .. && mkdir testing-zyte-puppeteer
+```
 
-6. Create a file `test.js` with following content and replace `<SPM_APIKEY>`.
+5. **Link `zyte-proxy-puppeteer`.**
+
+```
+npm init -y && npm link zyte-proxy-puppeteer
+```
+
+6. **Create a file `test.js` with following content and replace `<SPM_APIKEY>` with your SPM Apikey**
 
 ``` javascript
-const ZyteProxyPuppeteer = require('zyte-puppeteer');
+const ZyteProxyPuppeteer = require('zyte-proxy-puppeteer');
 
 (async () => {
     const browser = await ZyteProxyPuppeteer.launch({
@@ -49,9 +64,10 @@ const ZyteProxyPuppeteer = require('zyte-puppeteer');
 })();
 ```
 
-7. Make sure that you're able to make `https` requests using Smart Proxy Manager by following this guide [Fetching HTTPS pages with Zyte Smart Proxy Manager](https://support.zyte.com/support/solutions/articles/22000188407-fetching-https-pages-with-zyte-smart-proxy-manager)
 
-8. Run the file using node.
+Make sure that you're able to make `https` requests using Smart Proxy Manager by following this guide [Fetching HTTPS pages with Zyte Smart Proxy Manager](https://support.zyte.com/support/solutions/articles/22000188407-fetching-https-pages-with-zyte-smart-proxy-manager)
+
+Run the file using node.
 
 `node test.js`
 
