@@ -147,6 +147,9 @@ class ZyteProxyPuppeteer {
                         if (response.ok() && headers['x-crawlera-session']) {
                             module_context.SPMSessionId = Number(headers['x-crawlera-session']);
                         }
+                        else if (headers['x-crawlera-error'] === 'banned') {
+                            module_context.SPMSessionId = undefined;
+                        }
                     });
                     await page.authenticate({
                         username: module_context.apikey,
