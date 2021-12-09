@@ -133,6 +133,7 @@ class ZyteProxyPuppeteer {
                                 else {
                                     headers['X-Crawlera-Session'] = 'create';
                                 }
+                                headers['X-Crawlera-Client'] = 'puppeteer';
                                 interceptedRequest.continue({ headers });
                             }
                         }
