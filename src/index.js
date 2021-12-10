@@ -164,21 +164,24 @@ class ZyteProxyPuppeteer {
 
     async launch(options) {
         await this._configure_zyte_proxy_puppeteer(options)
+        let args = [
+            '--no-sandbox',
+            '--auto-open-devtools-for-tabs',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--disable-gpu',
+            '--disable-web-security',
+            '--ignore-certificate-errors',
+            '--ignore-certificate-errors-spki-list'
+        ]
+        if (this.spm_apikey) {
+            args.push(`--proxy-server=${this.spm_host}`)
+        }
         const necessary_options = {
             ignoreHTTPSErrors: true,
             headless: false,
-            args: [
-                '--no-sandbox',
-                '--auto-open-devtools-for-tabs',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-accelerated-2d-canvas',
-                '--disable-gpu',
-                '--disable-web-security',
-                `--proxy-server=${this.spm_host}`,
-                '--ignore-certificate-errors',
-                '--ignore-certificate-errors-spki-list'
-            ]
+            args: args,
         }
         options = {...necessary_options, ...options}
         const browser = await puppeteer.launch(options);
