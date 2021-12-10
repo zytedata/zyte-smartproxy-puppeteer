@@ -185,7 +185,9 @@ class ZyteProxyPuppeteer {
         }
         options = {...necessary_options, ...options}
         const browser = await puppeteer.launch(options);
-        this._patchPageCreation(browser);
+        if (this.spm_apikey) {
+            this._patchPageCreation(browser);
+        }
         return browser;
     }
 }
