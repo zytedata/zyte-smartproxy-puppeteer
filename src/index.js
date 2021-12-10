@@ -175,7 +175,7 @@ class ZyteProxyPuppeteer {
             '--ignore-certificate-errors',
             '--ignore-certificate-errors-spki-list'
         ]
-        if (this.spm_apikey) {
+        if (this.apikey) {
             args.push(`--proxy-server=${this.spm_host}`)
         }
         const necessary_options = {
@@ -185,7 +185,7 @@ class ZyteProxyPuppeteer {
         }
         options = {...necessary_options, ...options}
         const browser = await puppeteer.launch(options);
-        if (this.spm_apikey) {
+        if (this.apikey) {
             this._patchPageCreation(browser);
         }
         return browser;
