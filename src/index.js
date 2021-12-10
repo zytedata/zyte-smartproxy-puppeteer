@@ -180,7 +180,6 @@ class ZyteProxyPuppeteer {
         }
         const necessary_options = {
             ignoreHTTPSErrors: true,
-            headless: false,
             args: args,
         }
         options = {...necessary_options, ...options}
