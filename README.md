@@ -1,5 +1,6 @@
 # Zyte Proxy Puppeteer
 [![made-with-javascript](https://img.shields.io/badge/Made%20with-JavaScript-1f425f.svg)](https://www.javascript.com)
+[![npm](https://img.shields.io/npm/v/zyte-proxy-puppeteer)](https://www.npmjs.com/package/zyte-proxy-puppeteer)
 
 Use [Puppeteer](https://github.com/puppeteer/puppeteer/) with
 [Smart Proxy Manager](https://www.zyte.com/smart-proxy-manager/) easily!
