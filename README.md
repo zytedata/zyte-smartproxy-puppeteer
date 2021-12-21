@@ -44,8 +44,8 @@ Make sure that you're able to make `https` requests using Smart Proxy Manager by
 
 3. **Run `sample.js` using Node**
 
-```bash
-    node sample.js
+``` bash
+node sample.js
 ```
 
 ## API
