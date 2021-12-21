@@ -1,7 +1,7 @@
 # Zyte Proxy Puppeteer
 [![made-with-javascript](https://img.shields.io/badge/Made%20with-JavaScript-1f425f.svg)](https://www.javascript.com)
 
-Use [Puppeteer](https://github.com/puppeteer/puppeteer/) with 
+Use [Puppeteer](https://github.com/puppeteer/puppeteer/) with
 [Smart Proxy Manager](https://www.zyte.com/smart-proxy-manager/) easily!
 
 A wrapper over Puppeteer to provide Zyte Smart Proxy Manager specific functionalities.
@@ -9,46 +9,22 @@ A wrapper over Puppeteer to provide Zyte Smart Proxy Manager specific functional
 
 ## QuickStart
 
-1. **Clone this repo.**
+1. **Install Zyte Proxy Puppeteer**
 
 ```
-git clone git@github.com:zytedata/zyte-puppeteer.git
+npm install zyte-proxy-puppeteer
 ```
 
-2. **Move to the directory and install dependencies.**
-
-```
-cd zyte-puppeteer && npm install
-```
-
-3. **Link the library to NPM.**
-
-```
-npm link
-```
-
-4. **Create a separate repository outside of `zyte-proxy-puppeteer`.**
-
-```
-cd .. && mkdir testing-zyte-puppeteer
-```
-
-5. **Link `zyte-proxy-puppeteer`.**
-
-```
-npm init -y && npm link zyte-proxy-puppeteer
-```
-
-6. **Create a file `test.js` with following content and replace `<SPM_APIKEY>` with your SPM Apikey**
+2. **Create a file `sample.js` with following content and replace `<SPM_APIKEY>` with your SPM Apikey**
 
 ``` javascript
-const ZyteProxyPuppeteer = require('zyte-proxy-puppeteer');
+const puppeteer = require('zyte-proxy-puppeteer');
 
 (async () => {
-    const browser = await ZyteProxyPuppeteer.launch({
+    const browser = await puppeteer.launch({
         spm_apikey: '<SPM_APIKEY>'
     });
-    console.log('Before new page')
+    console.log('Before new page');
     const page = await browser.newPage();
 
     console.log('Opening page ...');
@@ -64,12 +40,13 @@ const ZyteProxyPuppeteer = require('zyte-proxy-puppeteer');
 })();
 ```
 
+Make sure that you're able to make `https` requests using Smart Proxy Manager by following this guide [Fetching HTTPS pages with Zyte Smart Proxy Manager](https://docs.zyte.com/smart-proxy-manager/next-steps/fetching-https-pages-with-smart-proxy.html)
 
-Make sure that you're able to make `https` requests using Smart Proxy Manager by following this guide [Fetching HTTPS pages with Zyte Smart Proxy Manager](https://support.zyte.com/support/solutions/articles/22000188407-fetching-https-pages-with-zyte-smart-proxy-manager)
+3. **Run `sample.js` using Node**
 
-Run the file using node.
-
-`node test.js`
+```bash
+    node sample.js
+```
 
 ## API
 
@@ -81,8 +58,6 @@ additional arguments defined below:
 | `spm_apikey` (required) | `undefined` | Zyte Smart Proxy Manager API key that can be found on your zyte.com account. |
 | `spm_host` | `http://proxy.zyte.com:8011` | Zyte Smart Proxy Manager proxy host. |
 | `static_bypass` | `true` | When `true` ZyteProxyPuppeteer will skip proxy use for static assets defined by `static_bypass_regex` or pass `false` to use proxy. |
-| `static_bypass_regex` | "check footer" | Regex to use filtering URLs for `static_bypass`. |
+| `static_bypass_regex` | `/.*?\.(?:txt\|css\|eot\|gif\|ico\|jpe?g\|js\|less\|mkv\|mp4\|mpe?g\|png\|ttf\|webm\|webp\|woff2?)$/` | Regex to use filtering URLs for `static_bypass`. |
 | `block_ads` | `true` | When `true` ZyteProxyPuppeteer will block ads defined by `block_list` using `@cliqz/adblocker-puppeteer` package. |
 | `block_list` | `['https://easylist.to/easylist/easylist.txt', 'https://easylist.to/easylist/easyprivacy.txt']` | Block list to be used by ZyteProxyPuppeteer in order to initiate blocker enginer using `@cliqz/adblocker-puppeteer` and block ads |
-
-`static_bypass_regex` : `/.*?\.(?:txt|css|eot|gif|ico|jpe?g|js|less|mkv|mp4|mpe?g|png|ttf|webm|webp|woff2?)$/`
