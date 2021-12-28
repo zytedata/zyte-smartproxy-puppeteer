@@ -77,9 +77,9 @@ class PuppeteerBlocker extends adblocker.PuppeteerBlocker {
     };
 }
 
-class ZyteProxyPuppeteer {
+class ZyteSmartProxyPuppeteer {
 
-    async _configure_zyte_proxy_puppeteer(options) {
+    async _configure_zyte_smartproxy_puppeteer(options) {
         options = options || {}
         this.apikey = options.spm_apikey;
         this.spm_host = options.spm_host || 'http://proxy.zyte.com:8011';
@@ -163,7 +163,7 @@ class ZyteProxyPuppeteer {
     }
 
     async launch(options) {
-        await this._configure_zyte_proxy_puppeteer(options)
+        await this._configure_zyte_smartproxy_puppeteer(options)
         let args = [
             '--no-sandbox',
             '--auto-open-devtools-for-tabs',
@@ -191,4 +191,4 @@ class ZyteProxyPuppeteer {
     }
 }
 
-module.exports = new ZyteProxyPuppeteer();
+module.exports = new ZyteSmartProxyPuppeteer();

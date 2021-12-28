@@ -1,5 +1,5 @@
 {
-  "name": "zyte-proxy-puppeteer",
+  "name": "zyte-smartproxy-puppeteer",
   "version": "1.0.2",
   "description": "A puppeteer enhancement with zyte smart proxy manager services.",
   "main": "src/index.js",
@@ -7,12 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["puppeteer", "zyte", "smart", "proxy", "manager"],
-  "author": "Shashank Kumar | realslimshanky",
+  "author": "Zyte Group Ltd.",
   "license": "MIT",
   "dependencies": {
     "@cliqz/adblocker-puppeteer": "^1.23.0",
     "cross-fetch": "^3.1.4",
     "puppeteer": "^10.4.0"
   },
-  "homepage": "https://github.com/zytedata/zyte-proxy-puppeteer"
+  "homepage": "https://github.com/zytedata/zyte-smartproxy-puppeteer"
 }

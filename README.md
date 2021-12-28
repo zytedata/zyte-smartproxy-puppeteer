@@ -1,4 +1,4 @@
-# Zyte Proxy Puppeteer
+# Zyte SmartProxy Puppeteer
 [![made-with-javascript](https://img.shields.io/badge/Made%20with-JavaScript-1f425f.svg)](https://www.javascript.com)
 [![npm](https://img.shields.io/npm/v/zyte-proxy-puppeteer)](https://www.npmjs.com/package/zyte-proxy-puppeteer)
 
@@ -7,19 +7,18 @@ Use [Puppeteer](https://github.com/puppeteer/puppeteer/) with
 
 A wrapper over Puppeteer to provide Zyte Smart Proxy Manager specific functionalities.
 
-
 ## QuickStart
 
-1. **Install Zyte Proxy Puppeteer**
+1. **Install Zyte SmartProxy Puppeteer**
 
 ```
-npm install zyte-proxy-puppeteer
+npm install zyte-smartproxy-puppeteer
 ```
 
 2. **Create a file `sample.js` with following content and replace `<SPM_APIKEY>` with your SPM Apikey**
 
 ``` javascript
-const puppeteer = require('zyte-proxy-puppeteer');
+const puppeteer = require('zyte-smartproxy-puppeteer');
 
 (async () => {
     const browser = await puppeteer.launch({
