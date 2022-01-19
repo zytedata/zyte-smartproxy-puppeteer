@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const adblocker = require('@cliqz/adblocker-puppeteer');
 const cross_fetch = require('cross-fetch');
+const clientVersion = '1.0.3'
 
 
 class BlockingContext extends adblocker.BlockingContext {
@@ -39,7 +40,7 @@ class PuppeteerBlocker extends adblocker.PuppeteerBlocker {
         await context.enable();
         return context;
     }
-    isRequestBlocked = (details) => {
+    isRequestBlocked(details){
         const request = adblocker.fromPuppeteerDetails(details);
         if (this.config.guessRequestTypeFromUrl === true && request.type === 'other') {
             request.guessTypeOfRequest();
@@ -83,14 +84,16 @@ class ZyteSmartProxyPuppeteer {
         options = options || {}
         this.apikey = options.spm_apikey;
         this.spm_host = options.spm_host || 'http://proxy.zyte.com:8011';
-        this.static_bypass = options.static_bypass || true;
-        this.static_bypass_regex = options.static_bypass_regex || /.*?\.(?:txt|css|eot|gif|ico|jpe?g|js|less|mkv|mp4|mpe?g|png|ttf|webm|webp|woff2?)$/;
-        this.block_ads = options.block_ads === true ? true : false;
+        this.static_bypass = options.static_bypass !== false;
+        this.static_bypass_regex = options.static_bypass_regex || /.*?\.(?:txt|json|css|less|js|gif|ico|jpe?g|svg|png|webp|mkv|mp4|mpe?g|webm|eot|ttf|woff2?)$/;
+        this.block_ads = options.block_ads !== false;
         this.block_list = options.block_list || [
             'https://easylist.to/easylist/easylist.txt',
             'https://easylist.to/easylist/easyprivacy.txt',
         ];
-        this.blocker = await PuppeteerBlocker.fromLists(cross_fetch.fetch, this.block_list);
+        if (this.block_ads) {
+            this.blocker = await PuppeteerBlocker.fromLists(cross_fetch.fetch, this.block_list);
+        }
     }
 
     _patchPageCreation(browser) {
@@ -133,7 +136,10 @@ class ZyteSmartProxyPuppeteer {
                                 else {
                                     headers['X-Crawlera-Session'] = 'create';
                                 }
-                                headers['X-Crawlera-Client'] = 'puppeteer';
+                                headers['X-Crawlera-Client'] = 'zyte-smartproxy-puppeteer/' + clientVersion;
+                                headers['X-Crawlera-No-Bancheck'] = '1';
+                                headers['X-Crawlera-Profile'] = 'pass';
+                                headers['X-Crawlera-Cookies'] = 'disable';
                                 interceptedRequest.continue({ headers });
                             }
                         }
@@ -148,7 +154,7 @@ class ZyteSmartProxyPuppeteer {
                         if (response.ok() && headers['x-crawlera-session']) {
                             module_context.SPMSessionId = Number(headers['x-crawlera-session']);
                         }
-                        else if (headers['x-crawlera-error'] === 'banned') {
+                        else if (headers['x-crawlera-error'] === 'bad_session_id') {
                             module_context.SPMSessionId = undefined;
                         }
                     });
@@ -164,25 +170,14 @@ class ZyteSmartProxyPuppeteer {
 
     async launch(options) {
         await this._configure_zyte_smartproxy_puppeteer(options)
-        let args = [
-            '--no-sandbox',
-            '--auto-open-devtools-for-tabs',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canvas',
-            '--disable-gpu',
-            '--disable-web-security',
-            '--ignore-certificate-errors',
-            '--ignore-certificate-errors-spki-list'
-        ]
         if (this.apikey) {
-            args.push(`--proxy-server=${this.spm_host}`)
+            const proxy_server_arg = `--proxy-server=${this.spm_host}`
+            if ('args' in options) {
+                options.args.push(proxy_server_arg)
+            } else {
+                options.args = [proxy_server_arg]
+            }
         }
-        const necessary_options = {
-            ignoreHTTPSErrors: true,
-            args: args,
-        }
-        options = {...necessary_options, ...options}
         const browser = await puppeteer.launch(options);
         if (this.apikey) {
             this._patchPageCreation(browser);
