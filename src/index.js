@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const adblocker = require('@cliqz/adblocker-puppeteer');
 const cross_fetch = require('cross-fetch');
-const clientVersion = '1.0.3'
+const { version } = require('./package.json');
 
 
 class BlockingContext extends adblocker.BlockingContext {
@@ -136,7 +136,7 @@ class ZyteSmartProxyPuppeteer {
                                 else {
                                     headers['X-Crawlera-Session'] = 'create';
                                 }
-                                headers['X-Crawlera-Client'] = 'zyte-smartproxy-puppeteer/' + clientVersion;
+                                headers['X-Crawlera-Client'] = 'zyte-smartproxy-puppeteer/' + version;
                                 headers['X-Crawlera-No-Bancheck'] = '1';
                                 headers['X-Crawlera-Profile'] = 'pass';
                                 headers['X-Crawlera-Cookies'] = 'disable';
