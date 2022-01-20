@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const adblocker = require('@cliqz/adblocker-puppeteer');
 const cross_fetch = require('cross-fetch');
-const { version } = require('./package.json');
+const { version } = require('../package.json');
 
 
 class BlockingContext extends adblocker.BlockingContext {
