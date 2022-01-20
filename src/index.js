@@ -85,7 +85,7 @@ class ZyteSmartProxyPuppeteer {
         this.apikey = options.spm_apikey;
         this.spm_host = options.spm_host || 'http://proxy.zyte.com:8011';
         this.static_bypass = options.static_bypass !== false;
-        this.static_bypass_regex = options.static_bypass_regex || /.*?\.(?:txt|json|css|less|js|gif|ico|jpe?g|svg|png|webp|mkv|mp4|mpe?g|webm|eot|ttf|woff2?)$/;
+        this.static_bypass_regex = options.static_bypass_regex || /.*?\.(?:txt|json|css|less|js|mjs|cjs|gif|ico|jpe?g|svg|png|webp|mkv|mp4|mpe?g|webm|eot|ttf|woff2?)$/;
         this.block_ads = options.block_ads !== false;
         this.block_list = options.block_list || [
             'https://easylist.to/easylist/easylist.txt',
