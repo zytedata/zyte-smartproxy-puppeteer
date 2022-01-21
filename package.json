@@ -1,6 +1,6 @@
 {
   "name": "zyte-smartproxy-puppeteer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A puppeteer enhancement with zyte smart proxy manager services.",
   "main": "src/index.js",
   "scripts": {
