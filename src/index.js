@@ -23,7 +23,7 @@ class ZyteSmartProxyPuppeteer {
             ];
 
             if ('args' in options) {
-                options.args.concat(spmArgs);
+                options.args = options.args.concat(spmArgs);
             } else {
                 options.args = spmArgs;
             }
