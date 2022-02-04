@@ -24,6 +24,7 @@ const puppeteer = require('zyte-smartproxy-puppeteer');
     const browser = await puppeteer.launch({
         spm_apikey: '<SPM_APIKEY>',
         ignoreHTTPSErrors: true,
+        headless: false,
     });
     console.log('Before new page');
     const page = await browser.newPage();
