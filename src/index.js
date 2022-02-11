@@ -68,14 +68,17 @@ class ZyteSmartProxyPuppeteer {
                     });
 
                     cdpSession.on('Fetch.requestPaused', async (event) => {
-                        if (zyteSPP.blockAds && zyteSPP.adBlocker.isAd(event, page))
-                            zyteSPP._blockRequest(cdpSession, event)
-                        else if (zyteSPP.staticBypass && zyteSPP._isStaticContent(event))
-                            zyteSPP._bypassRequest(cdpSession, event);
-                        else 
-                            zyteSPP._continueRequest(cdpSession, event);
-                        
-                        zyteSPP._verifyResponseSessionId(event.responseHeaders);
+                        if (zyteSPP._isResponse(event)){
+                            zyteSPP._verifyResponseSessionId(event.responseHeaders);
+                            zyteSPP._continueResponse(cdpSession, event);
+                        } else {
+                            if (zyteSPP.blockAds && zyteSPP.adBlocker.isAd(event, page))
+                                zyteSPP._blockRequest(cdpSession, event)
+                            else if (zyteSPP.staticBypass && zyteSPP._isStaticContent(event))
+                                zyteSPP._bypassRequest(cdpSession, event);
+                            else 
+                                zyteSPP._continueRequest(cdpSession, event);
+                        }
                     });
 
                     cdpSession.on('Fetch.authRequired', async (event) => {
@@ -86,6 +89,29 @@ class ZyteSmartProxyPuppeteer {
                 }
             }
         )(browser._createPageInContext, this);
+    }
+
+    _isResponse(event){
+        return event.responseStatusCode || event.responseErrorReason;
+    }
+
+
+    _verifyResponseSessionId(responseHeaders) {
+        if (responseHeaders) {
+            for (const header of responseHeaders) {
+                if (header.name === 'X-Crawlera-Error' &&
+                    header.value === 'bad_session_id'
+                )
+                    this.spmSessionId = undefined;
+            }
+        }
+    }
+
+    async _continueResponse(cdpSession, event) {
+        if (cdpSession.connection())
+            await cdpSession.send('Fetch.continueRequest', {
+                requestId: event.requestId,
+            });
     }
 
     async _blockRequest(cdpSession, event) {
@@ -137,17 +163,6 @@ class ZyteSmartProxyPuppeteer {
                 requestId: event.requestId,
                 headers: headersArray(headers),
             });
-    }
-
-    _verifyResponseSessionId(responseHeaders) {
-        if (responseHeaders) {
-            for (const header of responseHeaders) {
-                if (header.name === 'X-Crawlera-Error' &&
-                    header.value === 'bad_session_id'
-                )
-                    this.spmSessionId = undefined;
-            }
-        }
     }
 
     async _respondToAuthChallenge(cdpSession, event){
