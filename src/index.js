@@ -190,11 +190,12 @@ class ZyteSmartProxyPuppeteer {
 
         const url = this.spmHost + '/sessions';
         const auth = 'Basic ' + Buffer.from(this.apikey + ":").toString('base64');
+        const headers = {
+            'Authorization': auth,
+            'X-Crawlera-Client': 'zyte-smartproxy-puppeteer/' + version,
+        };
 
-        const response = await fetch(
-            url,
-            {method: 'POST', headers: {'Authorization': auth}}
-        );
+        const response = await fetch(url, {method: 'POST', headers: headers});
 
         if (response.ok)
             sessionId = await response.text();
