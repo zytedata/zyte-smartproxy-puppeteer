@@ -9,6 +9,11 @@ const defaultBlockList = [
     'https://easylist.to/easylist/easylist.txt',
     'https://easylist.to/easylist/easyprivacy.txt',
 ];
+const defaultHeaders = {
+    'X-Crawlera-No-Bancheck': '1',
+    'X-Crawlera-Profile': 'pass',
+    'X-Crawlera-Cookies': 'disable',
+}
 
 class ZyteSmartProxyPuppeteer {
     async launch(options) {
@@ -53,6 +58,7 @@ class ZyteSmartProxyPuppeteer {
         if (this.blockAds) {
             this.adBlocker = await ZyteAdBlocker.fromLists(fetch, this.blockList);
         }
+        this.headers = options.headers || defaultHeaders;
     }
 
     _patchPageCreation(browser) {
@@ -154,14 +160,13 @@ class ZyteSmartProxyPuppeteer {
         }
         headers['X-Crawlera-Session'] = this.spmSessionId;
         headers['X-Crawlera-Client'] = 'zyte-smartproxy-puppeteer/' + version;
-        headers['X-Crawlera-No-Bancheck'] = '1';
-        headers['X-Crawlera-Profile'] = 'pass';
-        headers['X-Crawlera-Cookies'] = 'disable';
+
+        const newHeaders = {...headers, ...this.headers}
 
         if (cdpSession.connection())
             await cdpSession.send('Fetch.continueRequest', {
                 requestId: event.requestId,
-                headers: headersArray(headers),
+                headers: headersArray(newHeaders),
             });
     }
 
