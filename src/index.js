@@ -76,19 +76,23 @@ class ZyteSmartProxyPuppeteer {
                     cdpSession.on('Fetch.requestPaused', async (event) => {
                         if (zyteSPP._isResponse(event)){
                             zyteSPP._verifyResponseSessionId(event.responseHeaders);
-                            zyteSPP._continueResponse(cdpSession, event);
+                            await zyteSPP._continueResponse(cdpSession, event);
                         } else {
                             if (zyteSPP.blockAds && zyteSPP.adBlocker.isAd(event, page))
-                                zyteSPP._blockRequest(cdpSession, event)
+                                await zyteSPP._blockRequest(cdpSession, event)
                             else if (zyteSPP.staticBypass && zyteSPP._isStaticContent(event))
-                                zyteSPP._bypassRequest(cdpSession, event);
+                                try {
+                                    await zyteSPP._bypassRequest(cdpSession, event);
+                                } catch(err) {
+                                    await zyteSPP._continueRequest(cdpSession, event);    
+                                }
                             else 
-                                zyteSPP._continueRequest(cdpSession, event);
+                                await zyteSPP._continueRequest(cdpSession, event);
                         }
                     });
 
                     cdpSession.on('Fetch.authRequired', async (event) => {
-                        zyteSPP._respondToAuthChallenge(cdpSession, event)
+                        await zyteSPP._respondToAuthChallenge(cdpSession, event)
                     });
 
                     return page;
