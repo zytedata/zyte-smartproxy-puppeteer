@@ -140,21 +140,26 @@ class ZyteSmartProxyPuppeteer {
 
     async _bypassRequest(cdpSession, event) {
         const response = await fetch(event.request.url)
-        const response_body = (await response.buffer()).toString('base64');
 
-        const response_headers = []
-        for (const pair of response.headers.entries()) {
-            if (pair[1] !== undefined)
-                response_headers.push({name: pair[0], value: pair[1] + ''});
+        if (response.status == 200) {
+            const response_body = (await response.buffer()).toString('base64');
+
+            const response_headers = []
+            for (const pair of response.headers.entries()) {
+                if (pair[1] !== undefined)
+                    response_headers.push({name: pair[0], value: pair[1] + ''});
+            }
+            
+            if (cdpSession.connection())
+                await cdpSession.send('Fetch.fulfillRequest', {
+                    requestId: event.requestId,
+                    responseCode: response.status,
+                    responseHeaders: response_headers,
+                    body: response_body,
+                });
+        } else {
+            throw 'Proxy bypass failed';
         }
-        
-        if (cdpSession.connection())
-            await cdpSession.send('Fetch.fulfillRequest', {
-                requestId: event.requestId,
-                responseCode: response.status,
-                responseHeaders: response_headers,
-                body: response_body,
-            });
     }
     
     async _continueRequest(cdpSession, event) {
