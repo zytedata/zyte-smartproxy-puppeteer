@@ -43,6 +43,18 @@ class ZyteSmartProxyPuppeteer {
         return browser;
     }
 
+    async connect(options) {
+        await this._init(options)
+
+        const browser = await puppeteer.connect(options);
+
+        if (this.apikey) {
+            this._patchPageCreation(browser);
+        }
+
+        return browser;
+    }
+
     async _init(options) {
         if (options === undefined)
             return;
