@@ -151,7 +151,8 @@ class ZyteSmartProxyPuppeteer {
     }
 
     async _bypassRequest(cdpSession, event) {
-        const response = await fetch(event.request.url)
+        const headers = event.request.headers;
+        const response = await fetch(event.request.url, {headers});
 
         if (response.status == 200) {
             const response_body = (await response.buffer()).toString('base64');
