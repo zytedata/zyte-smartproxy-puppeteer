@@ -145,7 +145,7 @@ class ZyteSmartProxyPuppeteer {
     }
 
     _isStaticContent(event) {
-        return event.request.method === 'GET' &&
+        return ['GET', 'OPTIONS'].includes(event.request.method) &&
             event.request.urlFragment === undefined &&
             this.staticBypassRegex.test(event.request.url)
     }
