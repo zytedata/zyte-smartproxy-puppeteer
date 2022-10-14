@@ -145,9 +145,7 @@ class ZyteSmartProxyPuppeteer {
     }
 
     _isStaticContent(event) {
-        return ['GET', 'OPTIONS'].includes(event.request.method) &&
-            event.request.urlFragment === undefined &&
-            this.staticBypassRegex.test(event.request.url)
+        return this.staticBypassRegex.test(event.request.url)
     }
 
     async _bypassRequest(cdpSession, event) {
