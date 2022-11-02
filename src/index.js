@@ -130,18 +130,20 @@ class ZyteSmartProxyPuppeteer {
     }
 
     async _continueResponse(cdpSession, event) {
-        if (cdpSession.connection())
+        try {
             await cdpSession.send('Fetch.continueRequest', {
                 requestId: event.requestId,
             });
+        } catch(err) {}
     }
 
     async _blockRequest(cdpSession, event) {
-        if (cdpSession.connection())
+        try {
             await cdpSession.send('Fetch.failRequest', {
                 requestId: event.requestId,
                 errorReason: 'BlockedByClient',
             });
+        } catch(err) {}
     }
 
     _isStaticContent(event) {
@@ -161,13 +163,14 @@ class ZyteSmartProxyPuppeteer {
                     response_headers.push({name: pair[0], value: pair[1] + ''});
             }
             
-            if (cdpSession.connection())
+            try {
                 await cdpSession.send('Fetch.fulfillRequest', {
                     requestId: event.requestId,
                     responseCode: response.status,
                     responseHeaders: response_headers,
                     body: response_body,
                 });
+            } catch(err) {}
         } else {
             throw 'Proxy bypass failed';
         }
@@ -183,11 +186,12 @@ class ZyteSmartProxyPuppeteer {
 
         const newHeaders = {...headers, ...this.headers}
 
-        if (cdpSession.connection())
+        try {
             await cdpSession.send('Fetch.continueRequest', {
                 requestId: event.requestId,
                 headers: headersArray(newHeaders),
             });
+        } catch(err) {}
     }
 
     async _respondToAuthChallenge(cdpSession, event){
@@ -202,7 +206,9 @@ class ZyteSmartProxyPuppeteer {
         else 
             parameters.authChallengeResponse = {response: 'Default'};
         
-        await cdpSession.send('Fetch.continueWithAuth', parameters);
+        try {
+            await cdpSession.send('Fetch.continueWithAuth', parameters);
+        } catch(err) {}
     }
 
     _isSPMAuthChallenge(event) {

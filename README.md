@@ -25,6 +25,8 @@ const puppeteer = require('zyte-smartproxy-puppeteer');
         spm_apikey: '<SPM_APIKEY>',
         ignoreHTTPSErrors: true,
         headless: false,
+        static_bypass: false, //  enable to save bandwidth (but may break some websites)
+        block_ads: false, //  enable to save bandwidth (but may break some websites)
     });
     console.log('Before new page');
     const page = await browser.newPage();
