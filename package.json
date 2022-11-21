@@ -6,7 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["puppeteer", "zyte", "smart", "proxy", "manager"],
+  "keywords": [
+    "puppeteer",
+    "zyte",
+    "smart",
+    "proxy",
+    "manager"
+  ],
   "author": "Zyte Group Ltd.",
   "license": "MIT",
   "dependencies": {
@@ -14,5 +20,9 @@
     "cross-fetch": "^3.1.4",
     "puppeteer": "^10.4.0"
   },
-  "homepage": "https://github.com/zytedata/zyte-smartproxy-puppeteer"
+  "homepage": "https://github.com/zytedata/zyte-smartproxy-puppeteer",
+  "devDependencies": {
+    "typescript": "^4.9.3"
+  },
+  "types": "./dist/index.d.ts"
 }
